@@ -4,5 +4,5 @@ from django.shortcuts import render
 # Create your views here.
 
 def home_api(request):
-  return HttpResponse('<h1>Hello, Welcome</h1>')
+  return render(request, 'accounts/home.html')
   
