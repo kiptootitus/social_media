@@ -20,3 +20,5 @@ coverage
 pytest
 pytest-django
 python-dotenv
+django-otp 
+pyotp

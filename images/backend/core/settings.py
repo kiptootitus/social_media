@@ -29,6 +29,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # apps
+    'accounts.apps.AccountsConfig',
+    'communications.apps.CommunicationsConfig',
+    'payments.apps.PaymentsConfig',
+    
     # third party apps
     'channels',
     'rest_framework',
@@ -41,10 +47,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_yasg",
 
-    # apps
-    'accounts.apps.AccountsConfig',
-    'communications.apps.CommunicationsConfig',
-    'payments.apps.PaymentsConfig',
     
 ]
 
@@ -79,6 +81,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
+AUTH_USER_MODEL = 'accounts.CustomerUser'
+
 
 # PostgresSQL DATABASE
 DATABASES = {
@@ -91,7 +95,12 @@ DATABASES = {
         "PORT": os.getenv("POSTGRES_PORT", default="5432"),
     }
 }
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Use your email provider's SMTP server
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -139,12 +148,13 @@ os.makedirs(MEDIA_ROOT, exist_ok=True)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
-      'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+   'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
+]
 
-    ]
 }
 
 
