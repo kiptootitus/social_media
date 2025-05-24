@@ -26,9 +26,15 @@ const api: AxiosInstance = axios.create({
 });
 
 // Request interceptor to add auth token to headers
+interface ErrorResponse {
+  message: string;
+  code?: string;
+  details?: any;
+}
+
 api.interceptors.response.use(
-  response => response,
-  error => {
+  (response: AxiosResponse): AxiosResponse => response,
+  (error: unknown): Promise<ErrorResponse> => {
     if (axios.isAxiosError(error) && error.response?.status === 401) {
       removeAuthToken();
       window.location.href = '/login'; // or use router to redirect
