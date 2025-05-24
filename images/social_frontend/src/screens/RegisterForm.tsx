@@ -42,7 +42,7 @@ const RegisterForm: React.FC = () => {
       setSuccess('Registration successful!');
       setFormData({ username: '', email: '', password: '', password2: '' });
       console.log('Token:', localStorage.getItem('authToken')); // Optional debug
-    } catch (error: any) {
+    } catch (error) {
       if (error.response && error.response.data) {
         setErrors(error.response.data);
       } else {
