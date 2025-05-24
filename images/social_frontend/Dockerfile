@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Stage 2: Serve the app with a lightweight server
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
@@ -28,7 +28,7 @@ RUN npm install -g serve
 # Copy built files from the builder stage
 COPY --from=builder /app/build ./build
 
-# Expose the port on which the app will run
+# Expose the port the app will run on
 EXPOSE 3000
 
 # Command to run the server
