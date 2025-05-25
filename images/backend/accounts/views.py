@@ -57,16 +57,22 @@ class VerifyOTPView(APIView):
 
         user = get_object_or_404(CustomerUser, id=user_id)
 
-        if verify_otp(email_otp, user.email_otp) and verify_otp(mobile_otp, user.mobile_otp):
-            user.is_email_verified = True
-            user.is_mobile_verified = True
-            user.email_otp = None
-            user.mobile_otp = None
-            user.save()
-            return Response({"message": "OTP verification successful. You can now log in."})
-        else:
-            return Response({"error": "Invalid OTPs."}, status=status.HTTP_400_BAD_REQUEST)
+        email_verified = verify_otp(email_otp, user.email_otp) if email_otp else False
+        mobile_verified = verify_otp(mobile_otp, user.mobile_otp) if mobile_otp else False
 
+        if email_verified:
+            user.is_email_verified = True
+            user.email_otp = None
+
+        if mobile_verified:
+            user.is_mobile_verified = True
+            user.mobile_otp = None
+
+        if email_verified or mobile_verified:
+            user.save()
+            return Response({"message": "OTP verification successful."})
+        else:
+            return Response({"error": "No valid OTPs provided."}, status=status.HTTP_400_BAD_REQUEST)
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)

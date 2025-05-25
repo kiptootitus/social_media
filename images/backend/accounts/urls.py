@@ -5,7 +5,7 @@ urlpatterns = [
   path('login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
   path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
   path('register/', UserRegistrationView.as_view(), name='user_registration'),
-  path('verify_otp/<int:user_id>/', VerifyOTPView.as_view(), name='verify_otp'),
-  path('resend-otp/', ResendOTPView.as_view(), name='resend_otp'),
+  path('verify_otp/', VerifyOTPView.as_view(), name='verify_otp'),
+  path('resend_otp/', ResendOTPView.as_view(), name='resend_otp'),
 
 ]
